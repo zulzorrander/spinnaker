@@ -1,0 +1,8 @@
+# Azure Vote UI controll
+title: "Azure Vote App DEMO"
+value1: TEST 1
+value2: TEST 2
+
+# Service controlls
+serviceNameFront: azure-vote-front-demo
+serviceType: ClusterIP
