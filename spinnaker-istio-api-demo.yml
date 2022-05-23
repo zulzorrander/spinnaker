@@ -5,6 +5,9 @@ metadata:
   namespace: mzmushko
 spec:
   secretName: zull-spin-api-demo-ssl
+  issuerRef:
+    name: ClusterIssuer
+    kind: Issuer
   commonName: spin-api-demo.zullzorrander.com
   dnsNames:
   - spin-api-demo.zullzorrander.com
@@ -39,7 +42,7 @@ spec:
 kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
 metadata:
-  name: spinnaker-ui-dr
+  name: spinnaker-api-dr
   namespace: mzmushko
 spec:
   host: spin-gate
@@ -49,7 +52,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: spinnaker-ui-vs
+  name: spinnaker-api-vs
   namespace: mzmushko
 spec:
   hosts:

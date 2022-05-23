@@ -5,6 +5,9 @@ metadata:
   namespace: mzmushko
 spec:
   secretName: zull-spin-demo-ssl
+  issuerRef:
+    name: ClusterIssuer
+    kind: Issuer
   commonName: spin-demo.zullzorrander.com
   dnsNames:
   - spin-demo.zullzorrander.com
