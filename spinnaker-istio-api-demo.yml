@@ -1,18 +1,18 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: zull-spin-demo-ssl
+  name: zull-spin-api-demo-ssl
   namespace: mzmushko
 spec:
-  secretName: zull-spin-demo-ssl
-  commonName: spin-demo.zullzorrander.com
+  secretName: zull-spin-api-demo-ssl
+  commonName: spin-api-demo.zullzorrander.com
   dnsNames:
-  - spin-demo.zullzorrander.com
+  - spin-api-demo.zullzorrander.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: spinnaker-ui-gateway
+  name: spinnaker-api-gateway
   namespace: mzmushko
 spec:
   selector:
@@ -20,21 +20,21 @@ spec:
   servers:
     - port:
         number: 80
-        name: http-spinnaker-ui
+        name: http-spinnaker-api
         protocol: HTTP
       hosts:
-        - spin-demo.zullzorrander.com
+        - spin-api-demo.zullzorrander.com
       tls:
         httpsRedirect: true
     - port:
         number: 443
-        name: https-spinnaker-ui
+        name: https-spinnaker-api
         protocol: HTTPS
       hosts:
-        - spin-demo.zullzorrander.com
+        - spin-api-demo.zullzorrander.com
       tls:
         mode: SIMPLE
-        credentialName: zull-spin-demo-ssl
+        credentialName: zull-spin-api-demo-ssl
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
@@ -42,7 +42,7 @@ metadata:
   name: spinnaker-ui-dr
   namespace: mzmushko
 spec:
-  host: spin-deck
+  host: spin-gate
   trafficPolicy:
     tls: {}
 ---
@@ -53,12 +53,12 @@ metadata:
   namespace: mzmushko
 spec:
   hosts:
-    - spin-demo.zullzorrander.com
+    - spin-api-demo.zullzorrander.com
   gateways:
-    - spinnaker-ui-gateway
+    - spinnaker-api-gateway
   http:
     - route:
       - destination:
-          host: spin-deck
+          host: spin-gate
           port:
-            number: 9000
+            number: 8084
