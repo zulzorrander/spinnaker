@@ -1,0 +1,33 @@
+metadata:
+  name: jenkins-ui-gateway
+  namespace: mzmushko
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"networking.istio.io/v1alpha3","kind":"Gateway","metadata":{"annotations":{},"name":"spinnaker-ui-gateway","namespace":"mzmushko"},"spec":{"selector":{"istio":"ingressgateway"},"servers":[{"hosts":["mzm-sp-demo.azure-omnicloud.com"],"port":{"name":"http-spinnaker-ui","number":80,"protocol":"HTTP"}}]}}
+  managedFields:
+    - manager: kubectl-client-side-apply
+      operation: Update
+      apiVersion: networking.istio.io/v1alpha3
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+        'f:spec':
+          .: {}
+          'f:selector':
+            .: {}
+            'f:istio': {}
+          'f:servers': {}
+spec:
+  servers:
+    - port:
+        number: 80
+        protocol: HTTP
+        name: http-spinnaker-ui
+      hosts:
+        - mzm-sp-demo.azure-omnicloud.com
+  selector:
+    istio: ingressgateway
+status: {}
