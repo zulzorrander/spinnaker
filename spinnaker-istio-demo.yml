@@ -1,0 +1,53 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: spinnaker-ui-gateway
+  namespace: mzmushko
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http-spinnaker-ui
+        protocol: HTTP
+      hosts:
+        - mzm-sp-demo.azure-omnicloud.com
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https-spinnaker-ui
+        protocol: HTTPS
+      hosts:
+        - mzm-sp-demo.azure-omnicloud.com
+      tls:
+        mode: SIMPLE
+        credentialName: azure-omnicloud-spinnaker-ui-ssl
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: spinnaker-ui-dr
+  namespace: mzmushko
+spec:
+  host: spin-deck
+  trafficPolicy:
+    tls: {}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: spinnaker-ui-vs
+  namespace: mzmushko
+spec:
+  hosts:
+    - mzm-sp-demo.azure-omnicloud.com
+  gateways:
+    - spinnaker-ui-gateway
+  http:
+    - route:
+      - destination:
+          host: spin-deck
+          port:
+            number: 9000
