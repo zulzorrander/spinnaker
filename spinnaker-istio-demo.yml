@@ -1,17 +1,18 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: zull-spin-demo-ssl
-  namespace: mzmushko
-spec:
-  secretName: zull-spin-demo-ssl
-  issuerRef:
-    name: ClusterIssuer
-    kind: Issuer
-  commonName: spin-demo.zullzorrander.com
-  dnsNames:
-  - spin-demo.zullzorrander.com
----
+### GENERATE SSL CERTIFICATE (CERT-MANAGER) ###
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: mz-spin-demo-ssl
+#   namespace: mzmushko
+# spec:
+#   secretName: mz-spin-demo-ssl
+#   issuerRef:
+#     name: ClusterIssuer
+#     kind: Issuer
+#   commonName: mz-spin-demo.azure-omnicloud.com
+#   dnsNames:
+#   - mz-spin-demo.azure-omnicloud.com
+# ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -26,18 +27,19 @@ spec:
         name: http-spinnaker-ui
         protocol: HTTP
       hosts:
-        - spin-demo.zullzorrander.com
-      tls:
-        httpsRedirect: true
-    - port:
-        number: 443
-        name: https-spinnaker-ui
-        protocol: HTTPS
-      hosts:
-        - spin-demo.zullzorrander.com
-      tls:
-        mode: SIMPLE
-        credentialName: zull-spin-demo-ssl
+        - mz-spin-demo.azure-omnicloud.com
+### IN CASE OF USING SECURE CONNECTION ###
+    #   tls:
+    #     httpsRedirect: true
+    # - port:
+    #     number: 443
+    #     name: https-spinnaker-ui
+    #     protocol: HTTPS
+    #   hosts:
+    #     - spin-demo.zullzorrander.com
+    #   tls:
+    #     mode: SIMPLE
+    #     credentialName: zull-spin-demo-ssl
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
@@ -56,7 +58,7 @@ metadata:
   namespace: mzmushko
 spec:
   hosts:
-    - spin-demo.zullzorrander.com
+    - mz-spin-demo.azure-omnicloud.com
   gateways:
     - spinnaker-ui-gateway
   http:
